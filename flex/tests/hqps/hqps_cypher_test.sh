@@ -36,7 +36,7 @@ GRAPH_SCHEMA_YAML=${GS_TEST_DIR}/flex/ldbc-sf01-long-date/audit_graph_schema.yam
 GRAPH_BULK_LOAD_YAML=${GS_TEST_DIR}/flex/ldbc-sf01-long-date/audit_bulk_load.yaml
 COMPILER_GRAPH_SCHEMA=${GS_TEST_DIR}/flex/ldbc-sf01-long-date/ldbc_schema_csr_ic.json
 GRAPH_CSR_DATA_DIR=${HOME}/csr-data-dir/
-HQPS_IR_CONF=/tmp/hqps.ir.conf
+HQPS_IR_CONF=/tmp/hqps.ir.properties
 # check if GRAPH_SCHEMA_YAML exists
 if [ ! -f ${GRAPH_SCHEMA_YAML} ]; then
   echo "GRAPH_SCHEMA_YAML: ${GRAPH_SCHEMA_YAML} not found"
@@ -82,7 +82,9 @@ create_ir_conf(){
     echo "hiactor.hosts: localhost:10000" >> ${HQPS_IR_CONF}
     echo "graph.store: exp" >> ${HQPS_IR_CONF}
     echo "graph.schema: ${GS_TEST_DIR}/flex/ldbc-sf01-long-date/ldbc_schema_csr_ic.json" >> ${HQPS_IR_CONF}
-    echo 'graph.planner: {"isOn":true,"opt":"RBO","rules":["FilterMatchRule"]}' >> ${HQPS_IR_CONF}
+    echo "graph.planner.is.on: true" >> ${HQPS_IR_CONF}
+    echo "graph.planner.opt: RBO" >> ${HQPS_IR_CONF}
+    echo "graph.planner.rules: FilterMatchRule" >> ${HQPS_IR_CONF}
     echo "gremlin.server.disabled: true" >> ${HQPS_IR_CONF}
     echo "neo4j.bolt.server.port: 7687" >> ${HQPS_IR_CONF}
 

@@ -16,7 +16,7 @@
 
 package com.alibaba.graphscope.common.ir.tools;
 
-import com.alibaba.graphscope.common.ir.procedure.StoredProcedureMeta;
+import com.alibaba.graphscope.common.ir.meta.procedure.StoredProcedureMeta;
 import com.alibaba.graphscope.common.ir.rex.operator.CaseOperator;
 
 import org.apache.calcite.sql.*;
@@ -206,4 +206,15 @@ public class GraphStdOperatorTable extends SqlStdOperatorTable {
                 operandTypeChecker,
                 SqlFunctionCategory.USER_DEFINED_PROCEDURE);
     }
+
+    // combine multiple expressions into a list
+    public static final SqlOperator ARRAY_VALUE_CONSTRUCTOR =
+            new SqlSpecialOperator(
+                    "ARRAY_VALUE_CONSTRUCTOR",
+                    SqlKind.ARRAY_VALUE_CONSTRUCTOR,
+                    0,
+                    false,
+                    ReturnTypes.explicit(SqlTypeName.ANY).andThen(SqlTypeTransforms.TO_ARRAY),
+                    GraphInferTypes.FIRST_KNOWN,
+                    OperandTypes.ANY);
 }

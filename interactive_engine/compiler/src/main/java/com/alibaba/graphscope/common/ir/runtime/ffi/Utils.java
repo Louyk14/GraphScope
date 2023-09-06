@@ -21,6 +21,7 @@ import com.alibaba.graphscope.common.ir.tools.config.GraphOpt;
 import com.alibaba.graphscope.common.jna.type.*;
 
 import org.apache.calcite.rel.RelFieldCollation;
+import org.apache.calcite.rel.core.JoinRelType;
 import org.apache.calcite.rex.RexLiteral;
 import org.apache.calcite.util.NlsString;
 
@@ -136,6 +137,8 @@ public abstract class Utils {
                 return FfiAggOpt.Min;
             case MAX:
                 return FfiAggOpt.Max;
+            case FIRST_VALUE:
+                return FfiAggOpt.First;
             default:
                 throw new UnsupportedOperationException(
                         "aggregate opt " + aggCall.getAggFunction().kind + " is unsupported yet");
@@ -153,6 +156,26 @@ public abstract class Utils {
             default:
                 throw new UnsupportedOperationException(
                         "direction " + direction + " in order is unsupported yet");
+        }
+    }
+
+    public static FfiJoinKind ffiJoinKind(JoinRelType joinType) {
+        switch (joinType) {
+            case INNER:
+                return FfiJoinKind.Inner;
+            case LEFT:
+                return FfiJoinKind.LeftOuter;
+            case RIGHT:
+                return FfiJoinKind.RightOuter;
+            case FULL:
+                return FfiJoinKind.FullOuter;
+            case SEMI:
+                return FfiJoinKind.Semi;
+            case ANTI:
+                return FfiJoinKind.Anti;
+            default:
+                throw new UnsupportedOperationException(
+                        "join type " + joinType + " is unsupported yet");
         }
     }
 }
